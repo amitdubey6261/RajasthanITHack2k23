@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@latest/lib/p5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@latest/lib/addons/p5.dom.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ml5@latest/dist/ml5.min.js"></script>
+</head>
+
+<body>
+  <!-- <script>
+
+    let classifier;
+    let imageModelURL = 'https://teachablemachine.withgoogle.com/models/ARAuZB7qj/';
+
+    let video;
+    let flippedVideo;
+    let label = "";
+
+    var count = 0;
+    var beepy = false;
+
+    function preload() {
+      classifier = ml5.imageClassifier(imageModelURL + 'model.json');
+    }
+
+    var beep = new Howl({
+      src: ['./beep.mp3'],
+    });
+
+    function setup() {
+      video = createCapture(VIDEO);
+      video.size(320, 240);
+      video.hide();
+
+      flippedVideo = ml5.flipImage(video);
+      classifyVideo();
+    }
+
+    function classifyVideo() {
+      flippedVideo = ml5.flipImage(video)
+      classifier.classify(flippedVideo, gotResult);
+      flippedVideo.remove();
+
+    }
+
+    function gotResult(error, results) {
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      if (results[0].label == 'Class 2') {
+        count += 1;
+      }
+
+      if (count == 30) {
+        beepy = true;
+        count = 0;
+      }
+
+      classifyVideo();
+    }
+  </script> -->
+  <div class="experience">
+    <canvas class="experience-canvas"></canvas>
+  </div>
+  <script type="module" src="./main.js"></script>
+</body>
+
+</html>
