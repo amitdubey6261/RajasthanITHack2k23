@@ -11,6 +11,11 @@ import Experience from '../Experience.js';
 
 export default class World {
     constructor(){
+        this.timeStep = 1 / 60;
+        this.experience = new Experience();
+        this.scene = this.experience.scene;
+        this.size = this.experience.sizes;
+        this.resources = this.experience.resources ; 
         this.createObstacles();
     }
 
