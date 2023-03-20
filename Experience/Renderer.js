@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import Experience from "./Experience";
 import { CSS3DRenderer , CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
+import { ARButton } from 'three/examples/jsm/webxr/ARButton';
 
 export default class Renderer{
     constructor(){
@@ -19,9 +20,11 @@ export default class Renderer{
         this.renderer = new THREE.WebGLRenderer({
             canvas : this.canvas ,
             antialias : true , 
-            alpha : false ,
+            alpha : true ,
         });
 
+        
+        
         this.renderer.physicallyCorrectLights = true ;
         this.renderer.shadowMap.enabled = true ;
         this.renderer.shadowMap.type = THREE.PCFShadowMap ;
@@ -31,6 +34,8 @@ export default class Renderer{
         this.renderer.setSize(this.sizes.width , this.sizes.height);
         this.renderer.setPixelRatio(this.sizes.pixelRatio);
         this.setCSS3Render();
+        this.renderer.xr.enabled = true ;
+        document.body.appendChild(ARButton.createButton(this.renderer))
     
     }
 
