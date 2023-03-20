@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import Stats from 'three/examples/jsm/libs/stats.module.js'
 
 import Resources from './Utils/Resources.js';
 import Assets from './Utils/assets.js';
@@ -35,6 +36,8 @@ export default class Experience {
         this.resources = new Resources(Assets);
         this.geoLocation = new Geolocation(this.em);
         this.p5 = new p5(Sketch(this.em));
+        this.stats = Stats()
+        document.body.appendChild(this.stats.domElement)
 
         //Obstacles
         this.obsPos = null ; 
@@ -71,6 +74,7 @@ export default class Experience {
         if (this.world) this.world.update();
         this.checkPos();
         if(this.geoLocation) this.geoLocation.update();
+        this.stats.update()
     }
 
     checkPos(){

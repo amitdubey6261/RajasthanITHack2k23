@@ -4,7 +4,7 @@ export default function Sketch(em) {
     window.ml5 = ml5;
 
     return (_) => {
-        let imageModelURL = 'https://teachablemachine.withgoogle.com/models/kAoNoq2jc/';
+        let imageModelURL = 'https://teachablemachine.withgoogle.com/models/ZfF0jJaLH/';
         let video;
         let flippedVideo;
         let label = "";
