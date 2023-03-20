@@ -11,12 +11,19 @@ import Renderer from './Renderer.js';
 import Controllers from './Controllers.js';
 
 import World from './World/World.js';
+import Sketch from './World/Sketch.js';
+
+import p5 from 'p5';
+
+import EventEmitter from 'events';
+import Geolocation from './World/Geolocation.js';
 
 export default class Experience {
     static instance
     constructor(canvas) {
         if (Experience.instance) { return Experience.instance }
         Experience.instance = this;
+        this.em = new EventEmitter();
         this.canvas = canvas;
         this.scene = new THREE.Scene();
         this.sizes = new Sizes();
@@ -26,36 +33,59 @@ export default class Experience {
         this.helpers = new Helpers();
         this.controllers = new Controllers();
         this.resources = new Resources(Assets);
+        this.geoLocation = new Geolocation(this.em);
+        this.p5 = new p5(Sketch(this.em));
 
+        //Obstacles
+        this.obsPos = null ; 
+
+        
         this.resources.on("ready", () => {
-            console.log("hi");
             this.world = new World();
             this.loadScript();
         })
-
+        
         this.sizes.on("resize", () => {
             this.resize();
         });
-
+        
         this.time.on("update", () => {
             this.update();
         });
+
+        this.geoLocation.on("update" , (x)=>{
+            // console.log(x)
+            this.geoParam = x ; 
+        })
     }
-
-    loadScript() {
-        console.log("pani")
-    }
-
-
+    
+    
     resize() {
         this.camera.resize();
         this.renderer.resize();
     }
-
+    
     update() {
         this.camera.update();
         this.renderer.update();
         this.controllers.update();
         if (this.world) this.world.update();
+        this.checkPos();
+        if(this.geoLocation) this.geoLocation.update();
+    }
+
+    checkPos(){
+        this.em.on("L" , ()=>{
+            this.obsPos = "L";
+        })
+        this.em.on("R" , ()=>{
+            this.obsPos = "R";
+        })
+        this.em.on("C" , ()=>{
+            this.obsPos = "C";
+        })
+        this.em.on("N" , ()=>{
+            this.obsPos = "N";
+        })
     }
 }

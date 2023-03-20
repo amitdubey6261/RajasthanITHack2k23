@@ -1,20 +1,19 @@
 import { Howl } from "howler";
 
-export default function Sketch() {
+export default function Sketch(em) {
     window.ml5 = ml5;
 
     return (_) => {
-        let imageModelURL = '';
+        let imageModelURL = 'https://teachablemachine.withgoogle.com/models/kAoNoq2jc/';
         let video;
         let flippedVideo;
         let label = "";
         let classifier;
 
-        let count = 0;
-
-        var beep = new Howl({
-            src : ['beep.mp3']
-        })
+        let countL = 0;
+        let countC = 0;
+        let countR = 0;
+        let countN = 0;
 
         _.preload = () => {
             classifier = ml5.imageClassifier(imageModelURL + 'model.json')
@@ -37,14 +36,47 @@ export default function Sketch() {
                 return;
             }
 
-            if (results[0].label == 'Class 2') {
-                count += 1;
+            console.log(results)
+
+
+            if(results[0].label == 'C'){
+                countC +=1 ;
             }
 
-            if( count == 30 ){
-                console.log("BEEP");
-                beep.play();
-                count = 0 ; 
+            if(results[0].label == 'N'){
+                countN +=1 ; 
+            }
+
+            if(results[0].label == 'L'){
+                countL +=1 ; 
+            }
+
+            if(results[0].label == 'R'){
+                countR += 1 ; 
+            }
+
+            if( countC == 30 ){
+                em.emit("C");
+                console.log("C");
+                countC = 0 ;
+            }
+            
+            if( countL == 30 ){
+                em.emit("L");
+                console.log("L");
+                countL = 0 ;
+            }
+            
+            if( countR == 30){
+                em.emit("R");
+                console.log("R");
+                countR = 0 ; 
+            }
+            
+            if( countN == 30 ){
+                em.emit("N");
+                console.log("N");
+                countN = 0 ; 
             }
 
             classifyVideo();
