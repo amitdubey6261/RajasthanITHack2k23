@@ -32,7 +32,6 @@ export default class Geolocation extends EventEmitter{
     }
 
     geoLocationStatus(){
-        console.log(this.latitude , this.longitude , this.accuracy , this.speed);
         let la = this.latitude;
         let lo = this.longitude;
         let ac = this.accuracy;

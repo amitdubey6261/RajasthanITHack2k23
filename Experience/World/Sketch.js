@@ -36,7 +36,7 @@ export default function Sketch(em) {
                 return;
             }
 
-            console.log(results)
+            // console.log(results)
 
 
             if(results[0].label == 'C'){

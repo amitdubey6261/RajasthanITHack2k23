@@ -8,6 +8,7 @@ import CannonDebugger from "cannon-es-debugger";
 import p5 from 'p5';
 import Enviroment from './Enviroment.js'
 import Experience from '../Experience.js';
+import HtmlIntegration from './HtmlIntegration.js';
 
 export default class World {
     constructor() {
@@ -17,6 +18,7 @@ export default class World {
         this.size = this.experience.sizes;
         this.resources = this.experience.resources;
         this.obsPos = this.experience.obsPos;
+        this.htmlIntegration = new HtmlIntegration();
         this.createCannonWorld();
 
         this.MR = 0;
