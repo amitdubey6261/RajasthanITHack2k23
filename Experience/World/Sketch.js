@@ -55,25 +55,25 @@ export default function Sketch(em) {
                 countR += 1 ; 
             }
 
-            if( countC == 30 ){
+            if( countC == 20 ){
                 em.emit("C");
                 console.log("C");
                 countC = 0 ;
             }
             
-            if( countL == 30 ){
+            if( countL == 20 ){
                 em.emit("L");
                 console.log("L");
                 countL = 0 ;
             }
             
-            if( countR == 30){
+            if( countR == 20){
                 em.emit("R");
                 console.log("R");
                 countR = 0 ; 
             }
             
-            if( countN == 30 ){
+            if( countN == 20 ){
                 em.emit("N");
                 console.log("N");
                 countN = 0 ; 

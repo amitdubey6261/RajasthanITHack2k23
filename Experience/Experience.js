@@ -54,7 +54,6 @@ export default class Experience {
         });
 
         this.geoLocation.on("update" , (x)=>{
-            // console.log(x)
             this.geoParam = x ; 
         })
     }
