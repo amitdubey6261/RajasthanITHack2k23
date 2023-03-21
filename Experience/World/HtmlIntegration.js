@@ -14,7 +14,7 @@ export default class HtmlIntegration {
         this.MainBox.style.height = `${window.screen.availHeight - 350}px`;
         this.MainBox.style.width = `${window.screen.availWidth}px`;
         this.MainBox.style.backgroundColor = 'Yellow';
-        this.MainBox.style.opacity = 0.2
+        this.MainBox.style.opacity = 0.7
         this.MainBox.style.zIndex = 1;
         this.MainBox.style.position = 'relative';
         document.body.appendChild(this.MainBox);
@@ -83,6 +83,7 @@ export default class HtmlIntegration {
 
         this.SubmitButton = document.createElement('button');
         this.LoginButton = document.createElement('button');
+        this.CancellButton = document.createElement('button');
 
         this.SubmitButton.style.width = `${60}px`;
         this.SubmitButton.style.height = `${20}px`;
@@ -94,8 +95,18 @@ export default class HtmlIntegration {
         this.LoginButton.style.alignItems = 'center';
         this.LoginButton.innerHTML = "LOGIN";
 
+        this.CancellButton.style.width = `${60}px`;
+        this.CancellButton.style.height = `${20}px`;
+        this.CancellButton.style.alignItems = 'center';
+        this.CancellButton.innerHTML = "CANCELL";
+
         this.inputWrapper.appendChild(this.SubmitButton);
         this.inputWrapper.appendChild(this.LoginButton);
+        this.inputWrapper.appendChild(this.CancellButton);
+
+        this.CancellButton.addEventListener('click' , ()=>{
+            this.MainBox.style.display = 'none';
+        })
 
         this.SubmitButton.addEventListener('click' , (e)=>{
             e.preventDefault();
@@ -108,7 +119,6 @@ export default class HtmlIntegration {
             })
 
             setTimeout(()=>{
-                // this.nubervalue = parseInt()
                 this.data = {
                     name : this.NameInputBox.value ,
                     shopName : this.ShopNameInputBox.value ,
@@ -124,6 +134,8 @@ export default class HtmlIntegration {
                 })
 
             } , 5000)
+
+            this.MainBox.style.display = 'none';
 
         })
 
@@ -161,6 +173,9 @@ export default class HtmlIntegration {
 
         this.inputWrapper.style.marginLeft = `${35}%`;
         this.inputWrapper.style.paddingTop = `${10}%`;
+        this.inputWrapper.style.backgroundColor = 'green';
+        this.inputWrapper.style.opacity = 0.9;
+
 
         this.MainBox.appendChild(this.inputWrapper);
 
@@ -179,6 +194,7 @@ export default class HtmlIntegration {
             }).catch((err)=>{
                 console.log(err);
             })
+            this.MainBox.style.display = 'none';
         })
     }
 };

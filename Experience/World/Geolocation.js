@@ -28,6 +28,7 @@ export default class Geolocation extends EventEmitter{
     }
 
     update(){
+        console.log(this.latitude , this.longitude , this.speed )
         this.geoLocationStatus();
     }
 
