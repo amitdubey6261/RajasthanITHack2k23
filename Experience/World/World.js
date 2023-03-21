@@ -13,16 +13,18 @@ import HtmlIntegration from './HtmlIntegration.js';
 export default class World {
     constructor() {
         this.timeStep = 1 / 60;
+        this.Pspeed = 0.02;
         this.experience = new Experience();
         this.scene = this.experience.scene;
         this.size = this.experience.sizes;
         this.resources = this.experience.resources;
         this.obsPos = this.experience.obsPos;
+        this.Enviroment = new Enviroment();
         this.htmlIntegration = new HtmlIntegration();
+        this.obstacles = new Array();
+        this.obstaclesT = new Array();
         this.createCannonWorld();
 
-        this.MR = 0;
-        this.ML = 0;
         this.L = 0;
         this.R = 0;
         this.C = 0;
@@ -74,19 +76,27 @@ export default class World {
     }
 
     createObstacles(Valx) {
-        console.log(Valx)
+        this.obstaclesT = this.resources.items.obstacles.scene.clone() ;
+        this.obstaclesT.scale.set(2 , 2 , 2);
+        this.scene.add(this.obstaclesT)
         this.obstacleBody = new CANNON.Body({
             shape: new CANNON.Box(new CANNON.Vec3(0.1, 0.1, 0.1)),
             mass: 500,
             position: new CANNON.Vec3(Valx, 1, -5)
         })
+        this.obstacles.push(this.obstacleBody);
+        this.CannonWorld.addBody(this.obstacleBody);
 
-        this.CannonWorld.addBody(this.obstacleBody)
+        this.scene.add(this.obstaclesT);
     }
 
     createCar() {
+
+        this.createCar = this.resources.items.car.scene;
+        this.scene.add(this.createCar)
+
         this.CarBody = new CANNON.Body({
-            shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
+            shape: new CANNON.Box(new CANNON.Vec3(0.2, 0.1, 0.1)),
             position: new CANNON.Vec3(0, 1, 5),
             mass: 10000
         })
@@ -100,14 +110,18 @@ export default class World {
         this.CannonDebugger.update();
         this.obstacleBodyUpdate();
         this.checkObsPos();
-        
+
+        this.createCar.position.copy(this.CarBody.position);
+        this.createCar.quaternion.copy(this.CarBody.quaternion);
     }
 
     obstacleBodyUpdate() {
-        if (this.obstacleBody.position.z > 5) {
-            this.CannonWorld.removeBody(this.obstacleBody);
+        for (let i = 0; i < this.obstacles.length; i++) {
+            if (this.obstacles[i].position.z > 5) {
+                this.CannonWorld.removeBody(this.obstacles[i])
+            }
+            this.obstacles[i].position.z += this.Pspeed;
         }
-        this.obstacleBody.position.z += 0.04;
     }
 
     checkObsPos() {
@@ -122,18 +136,18 @@ export default class World {
                 this.R += 1;
             }
         }
-        
+
         if (this.C == 100) {
             this.createObstacles(0);
             this.C = 0;
         }
         if (this.L == 100) {
             this.createObstacles(-1);
-            this.L = 0 ;
+            this.L = 0;
         }
         if (this.R == 100) {
             this.createObstacles(1);
-            this.R = 0 ; 
+            this.R = 0;
         }
 
     }

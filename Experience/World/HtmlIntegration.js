@@ -19,7 +19,6 @@ export default class HtmlIntegration {
         this.MainBox.style.position = 'relative';
         document.body.appendChild(this.MainBox);
         this.sethead();
-        // this.login();
         this.signUp();
     }
 
@@ -120,8 +119,6 @@ export default class HtmlIntegration {
                 console.log(this.data);
 
                 Axios.post('http://159.65.236.57:5000/api/v1/users/register' , this.data).then((res)=>{
-                    // console.log(res.data);
-                    // console.log(window.localStorage)
                 }).catch((err)=>{
                     console.log(err);
                 })

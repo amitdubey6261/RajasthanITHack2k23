@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import Stats from 'three/examples/jsm/libs/stats.module.js'
+import Axios from 'axios';
 
 import Resources from './Utils/Resources.js';
 import Assets from './Utils/assets.js';
@@ -39,55 +40,107 @@ export default class Experience {
         this.stats = Stats()
         document.body.appendChild(this.stats.domElement)
 
-        //Obstacles
-        this.obsPos = null ; 
+        this.uptime = 0;
 
-        
+        //Obstacles
+        this.obsPos = null;
+
+
         this.resources.on("ready", () => {
             this.world = new World();
-            this.loadScript();
+            // this.loadScript();
         })
-        
+
         this.sizes.on("resize", () => {
             this.resize();
         });
-        
+
         this.time.on("update", () => {
             this.update();
         });
 
-        this.geoLocation.on("update" , (x)=>{
-            this.geoParam = x ; 
+        this.geoLocation.on("update", (x) => {
+            this.uptime++;
+            if (this.uptime == 20) {
+                this.change(x);
+            }
+        })
+
+    }
+
+    change(x) {
+        Axios.put(`http://159.65.236.57:5000/api/v1/users/update/${localStorage.getItem('id')}`, {
+            "location": {
+                w: x.la,
+                x: x.lo,
+                y: x.ac,
+                z: x.sp,
+            }
+        }).then((res) => {
+            // console.log(res)
+        }).catch((err) => {
+            console.log(err)
+        })
+        this.uptime = 0;
+
+        this.updateTop5();
+    }
+
+
+
+    updateTop5(x) {
+        Axios.get(`http://159.65.236.57:5000/api/v1/users/all/`).then((res) => {
+            for (let i = 0; i < res.data.user.length; i++) {
+                // console.log(res.data.user[i].location)
+                this.myFunction(res.data.user[i].w , )
+            }
+        }).catch((err) => {
+            console.log(err)
         })
     }
-    
-    
+
+    myFunction(lat1, lat2, lon1, lon2) {
+        const R = 6371e3; // metres
+        const φ1 = lat1 * Math.PI / 180; // φ, λ in radians
+        const φ2 = lat2 * Math.PI / 180;
+        const Δφ = (lat2 - lat1) * Math.PI / 180;
+        const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+        const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+            Math.cos(φ1) * Math.cos(φ2) *
+            Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        const d = R * c; // in metres
+        return d;
+    }
+
     resize() {
         this.camera.resize();
         this.renderer.resize();
     }
-    
+
     update() {
         this.camera.update();
         this.renderer.update();
         this.controllers.update();
         if (this.world) this.world.update();
         this.checkPos();
-        if(this.geoLocation) this.geoLocation.update();
+        if (this.geoLocation) this.geoLocation.update();
         this.stats.update()
     }
 
-    checkPos(){
-        this.em.on("L" , ()=>{
+    checkPos() {
+        this.em.on("L", () => {
             this.obsPos = "L";
         })
-        this.em.on("R" , ()=>{
+        this.em.on("R", () => {
             this.obsPos = "R";
         })
-        this.em.on("C" , ()=>{
+        this.em.on("C", () => {
             this.obsPos = "C";
         })
-        this.em.on("N" , ()=>{
+        this.em.on("N", () => {
             this.obsPos = "N";
         })
     }

@@ -35,7 +35,10 @@ export default class Renderer{
         this.renderer.setPixelRatio(this.sizes.pixelRatio);
         this.setCSS3Render();
         this.renderer.xr.enabled = true ;
-        document.body.appendChild(ARButton.createButton(this.renderer))
+        this.btn = ARButton.createButton(this.renderer)
+        this.btn.style.color = 'white';
+        this.btn.style.backgroundColor = 'black';
+        document.body.appendChild(this.btn)
     
     }
 

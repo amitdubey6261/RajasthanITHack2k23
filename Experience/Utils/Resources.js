@@ -77,7 +77,6 @@ export default class extends EventEmitter {
     }
 
     singleAssetLoaded( asset , file ){
-        // console.log(asset,file);
         this.items[ asset.name ] = file ;
         this.loaded += 1 ;
         if( this.loaded == this.queue ){
