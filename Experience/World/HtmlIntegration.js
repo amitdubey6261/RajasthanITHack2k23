@@ -184,6 +184,7 @@ export default class HtmlIntegration {
         this.SubmitButton.style.width = `${60}px`;
         this.SubmitButton.style.height = `${20}px`;
         this.SubmitButton.style.alignItems = 'center';
+        this.SubmitButton.innerHTML = "LOGIN";
 
         this.inputWrapper.appendChild(this.SubmitButton);
 

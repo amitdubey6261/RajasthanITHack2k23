@@ -91,12 +91,14 @@ export default class Experience {
     updateTop5(x) {
         Axios.get(`http://159.65.236.57:5000/api/v1/users/all/`).then((res) => {
             for (let i = 0; i < res.data.user.length; i++) {
-                console.log(res.data.user.w , res.data.user.x);
+                console.log(res.data.user[i].w , res.data.user[i].x);
             }
         }).catch((err) => {
             console.log(err)
         })
     }
+
+    // ======================================================
 
     myFunction(lat1, lat2, lon1, lon2) {
         const R = 6371e3; // metres
@@ -113,6 +115,8 @@ export default class Experience {
         const d = R * c; // in metres
         return d;
     }
+
+    //=========================================================
 
     resize() {
         this.camera.resize();
