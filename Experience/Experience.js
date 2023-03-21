@@ -91,8 +91,7 @@ export default class Experience {
     updateTop5(x) {
         Axios.get(`http://159.65.236.57:5000/api/v1/users/all/`).then((res) => {
             for (let i = 0; i < res.data.user.length; i++) {
-                // console.log(res.data.user[i].location)
-                this.myFunction(res.data.user[i].w , )
+                console.log(res.data.user.w , res.data.user.x);
             }
         }).catch((err) => {
             console.log(err)
